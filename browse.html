@@ -1,0 +1,1577 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Entry</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link
+  href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Mrs+Saint+Delafield&display=swap"
+  rel="stylesheet"
+>
+
+<style>
+:root {
+  --a: #2ff5c8;
+  --a2: #17c9ff;
+  --ar: 47,245,200;
+  --a2r: 23,201,255;
+  --tx: #e6fbf7;
+  --mut: #7fa39d;
+  --line: rgba(255,255,255,.08);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  background: #000;
+  color: var(--tx);
+  font-family: Inter,system-ui,sans-serif;
+}
+
+body {
+  position: relative;
+}
+
+#browser {
+  position: fixed;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  border: 0;
+  background: #000;
+}
+
+/* ENTRY BACKGROUND */
+
+.entry-bg {
+  position: fixed;
+  inset: 0;
+  overflow: hidden;
+  background:
+    radial-gradient(
+      circle at 20% 100%,
+      rgba(var(--ar),.18),
+      transparent 38%
+    ),
+    radial-gradient(
+      circle at 80% 100%,
+      rgba(var(--a2r),.16),
+      transparent 40%
+    ),
+    #000;
+}
+
+.entry-bg::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-image:
+    radial-gradient(
+      rgba(255,255,255,.12) 1px,
+      transparent 1.2px
+    );
+  background-size: 20px 20px;
+  mask-image:
+    linear-gradient(#000 0%,transparent 75%);
+  -webkit-mask-image:
+    linear-gradient(#000 0%,transparent 75%);
+  opacity: .65;
+}
+
+.glow-a,
+.glow-b {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(70px);
+  pointer-events: none;
+}
+
+.glow-a {
+  width: 500px;
+  height: 500px;
+  left: -180px;
+  bottom: -250px;
+  background: rgba(var(--ar),.34);
+  animation: driftA 12s ease-in-out infinite alternate;
+}
+
+.glow-b {
+  width: 500px;
+  height: 500px;
+  right: -200px;
+  bottom: -220px;
+  background: rgba(var(--a2r),.28);
+  animation: driftB 15s ease-in-out infinite alternate;
+}
+
+@keyframes driftA {
+  to {
+    transform: translate(110px,-80px) scale(1.15);
+  }
+}
+
+@keyframes driftB {
+  to {
+    transform: translate(-100px,-110px) scale(.95);
+  }
+}
+
+/* STATUS */
+
+#status {
+  position: fixed;
+  inset: 0;
+  z-index: 10000;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  padding: 24px;
+
+  background: #000;
+}
+
+#status.hidden {
+  display: none;
+}
+
+.status-content {
+  position: relative;
+  z-index: 5;
+
+  width: min(560px,92vw);
+
+  text-align: center;
+}
+
+.entry-logo {
+  margin: 0 0 10px;
+
+  font:
+    400 clamp(78px,13vw,118px)/1
+    "Mrs Saint Delafield",
+    cursive;
+
+  color: #fff;
+
+  text-shadow:
+    0 0 22px rgba(var(--ar),.75),
+    0 0 50px rgba(var(--a2r),.4);
+}
+
+.status-label {
+  margin-top: 4px;
+
+  color: var(--mut);
+
+  font-size: 11px;
+  font-weight: 600;
+
+  letter-spacing: .14em;
+  text-transform: uppercase;
+}
+
+#title {
+  margin-top: 17px;
+
+  font-size: 17px;
+  font-weight: 600;
+}
+
+#message {
+  margin: 8px auto 0;
+
+  max-width: 500px;
+
+  color: var(--mut);
+
+  font-size: 12px;
+  line-height: 1.6;
+
+  overflow-wrap: anywhere;
+}
+
+.loader {
+  width: 190px;
+  height: 3px;
+
+  margin: 23px auto 0;
+
+  overflow: hidden;
+
+  border-radius: 999px;
+
+  background: rgba(255,255,255,.09);
+}
+
+.loader span {
+  display: block;
+
+  width: 45%;
+  height: 100%;
+
+  border-radius: inherit;
+
+  background:
+    linear-gradient(
+      90deg,
+      var(--a),
+      var(--a2)
+    );
+
+  box-shadow:
+    0 0 14px rgba(var(--ar),.5);
+
+  animation: loading 1.1s ease-in-out infinite;
+}
+
+@keyframes loading {
+  from {
+    transform: translateX(-110%);
+  }
+
+  to {
+    transform: translateX(330%);
+  }
+}
+
+/* STARTUP ERROR */
+
+#error {
+  display: none;
+
+  margin: 20px auto 0;
+  padding: 14px;
+
+  max-height: 250px;
+
+  overflow: auto;
+
+  border: 1px solid rgba(255,90,90,.25);
+  border-radius: 12px;
+
+  background: rgba(255,70,70,.06);
+
+  color: #ffb4b4;
+
+  font:
+    11px/1.55
+    ui-monospace,
+    SFMono-Regular,
+    Menlo,
+    Monaco,
+    Consolas,
+    monospace;
+
+  text-align: left;
+
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
+
+/* NSFW */
+
+#nsfw-warning {
+  position: fixed;
+  inset: 0;
+
+  z-index: 20000;
+
+  display: none;
+  align-items: center;
+  justify-content: center;
+
+  padding: 22px;
+
+  background:
+    radial-gradient(
+      circle at 50% 100%,
+      rgba(255,55,55,.15),
+      transparent 45%
+    ),
+    #000;
+}
+
+#nsfw-warning.visible {
+  display: flex;
+}
+
+.nsfw-card {
+  width: min(480px,100%);
+
+  padding: 32px;
+
+  border: 1px solid var(--line);
+  border-radius: 18px;
+
+  background: rgba(5,9,9,.94);
+
+  box-shadow:
+    0 24px 80px rgba(0,0,0,.75);
+
+  text-align: center;
+}
+
+.nsfw-brand {
+  margin-bottom: 8px;
+
+  font:
+    400 58px/1
+    "Mrs Saint Delafield",
+    cursive;
+
+  color: #fff;
+
+  text-shadow:
+    0 0 20px rgba(var(--ar),.55);
+}
+
+.nsfw-badge {
+  display: inline-block;
+
+  margin-bottom: 16px;
+  padding: 6px 11px;
+
+  border: 1px solid rgba(255,100,100,.35);
+  border-radius: 999px;
+
+  background: rgba(255,70,70,.08);
+
+  color: #ff8989;
+
+  font-size: 10px;
+  font-weight: 700;
+
+  letter-spacing: .13em;
+}
+
+.nsfw-card h1 {
+  margin: 0 0 10px;
+
+  font-size: 21px;
+}
+
+.nsfw-card p {
+  margin: 0;
+
+  color: var(--mut);
+
+  font-size: 12px;
+  line-height: 1.65;
+}
+
+#nsfw-domain {
+  display: block;
+
+  margin: 17px 0;
+  padding: 10px 12px;
+
+  border: 1px solid var(--line);
+  border-radius: 9px;
+
+  background: rgba(255,255,255,.035);
+
+  color: var(--tx);
+
+  font:
+    12px
+    ui-monospace,
+    SFMono-Regular,
+    Menlo,
+    monospace;
+
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.confirm {
+  display: flex;
+  gap: 10px;
+  align-items: flex-start;
+
+  margin-top: 18px;
+  padding: 12px;
+
+  border: 1px solid var(--line);
+  border-radius: 10px;
+
+  background: rgba(255,255,255,.025);
+
+  text-align: left;
+}
+
+.confirm input {
+  width: 17px;
+  height: 17px;
+
+  flex: none;
+
+  margin-top: 2px;
+}
+
+.confirm label {
+  color: #b7d2cd;
+
+  font-size: 11px;
+  line-height: 1.5;
+}
+
+.nsfw-buttons {
+  display: grid;
+
+  grid-template-columns: 1fr 1fr;
+
+  gap: 8px;
+
+  margin-top: 18px;
+}
+
+.nsfw-buttons button {
+  height: 39px;
+
+  border: 1px solid var(--line);
+  border-radius: 9px;
+
+  font-family: inherit;
+  font-size: 12px;
+  font-weight: 600;
+
+  cursor: pointer;
+}
+
+#nsfw-back {
+  background: rgba(255,255,255,.05);
+  color: var(--tx);
+}
+
+#nsfw-continue {
+  border: 0;
+
+  background:
+    linear-gradient(
+      135deg,
+      var(--a),
+      var(--a2)
+    );
+
+  color: #00231d;
+}
+
+#nsfw-continue:disabled {
+  opacity: .3;
+  cursor: not-allowed;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .glow-a,
+  .glow-b,
+  .loader span {
+    animation: none;
+  }
+}
+</style>
+</head>
+
+<body>
+
+<iframe
+  id="browser"
+  allow="autoplay; fullscreen; clipboard-write; encrypted-media; geolocation"
+  referrerpolicy="no-referrer"
+></iframe>
+
+
+<div id="status">
+
+  <div class="entry-bg">
+    <div class="glow-a"></div>
+    <div class="glow-b"></div>
+  </div>
+
+  <div class="status-content">
+
+    <h1 class="entry-logo">
+      entry
+    </h1>
+
+    <div class="status-label">
+      Private Browser
+    </div>
+
+    <div id="title">
+      Starting Entry
+    </div>
+
+    <div id="message">
+      Initializing browser engine…
+    </div>
+
+    <div class="loader" id="loader">
+      <span></span>
+    </div>
+
+    <div id="error"></div>
+
+  </div>
+
+</div>
+
+
+<div id="nsfw-warning">
+
+  <div class="nsfw-card">
+
+    <div class="nsfw-brand">
+      entry
+    </div>
+
+    <div class="nsfw-badge">
+      NSFW · 18+
+    </div>
+
+    <h1>
+      Adult Content Warning
+    </h1>
+
+    <p>
+      Entry identified this destination as potentially
+      containing sexually explicit or other adult content.
+    </p>
+
+    <span id="nsfw-domain"></span>
+
+    <p>
+      This destination is blocked by default.
+      Confirm that you are 18 years of age or older
+      before continuing.
+    </p>
+
+    <div class="confirm">
+
+      <input
+        type="checkbox"
+        id="nsfw-age-confirm"
+      >
+
+      <label for="nsfw-age-confirm">
+        I confirm that I am 18 years of age or older
+        and understand that this destination may
+        contain NSFW or sexually explicit material.
+      </label>
+
+    </div>
+
+    <div class="nsfw-buttons">
+
+      <button
+        type="button"
+        id="nsfw-back"
+      >
+        Go back
+      </button>
+
+      <button
+        type="button"
+        id="nsfw-continue"
+        disabled
+      >
+        Continue to the site
+      </button>
+
+    </div>
+
+  </div>
+
+</div>
+
+
+<script src="/transport/index.js"></script>
+<script src="/corridor/corridor.js"></script>
+<script src="/controller/controller.api.js"></script>
+
+
+<script>
+(() => {
+
+  "use strict";
+
+
+  const CONFIG = {
+
+    WISP:
+      "wss://wisp.mercurywork.shop/",
+
+    SERVICE_WORKER:
+      "/controller/controller.sw.js",
+
+    SERVICE_WORKER_SCOPE:
+      "/"
+
+  };
+
+
+  const NSFW_DOMAINS = [
+
+    "pornhub.com",
+    "xvideos.com",
+    "xnxx.com",
+    "xhamster.com",
+    "redtube.com",
+    "youporn.com",
+    "tube8.com",
+    "spankbang.com",
+    "eporner.com",
+    "hqporner.com",
+    "beeg.com",
+    "tnaflix.com",
+    "drtuber.com",
+    "porn.com",
+    "pornone.com",
+    "youjizz.com",
+    "txxx.com",
+    "sunporno.com",
+    "porndig.com",
+    "thumbzilla.com",
+
+    "onlyfans.com",
+    "fansly.com",
+    "manyvids.com",
+
+    "chaturbate.com",
+    "stripchat.com",
+    "cam4.com",
+    "bongacams.com",
+    "livejasmin.com"
+
+  ];
+
+
+  const iframe =
+    document.getElementById("browser");
+
+  const status =
+    document.getElementById("status");
+
+  const title =
+    document.getElementById("title");
+
+  const message =
+    document.getElementById("message");
+
+  const errorBox =
+    document.getElementById("error");
+
+  const loader =
+    document.getElementById("loader");
+
+  const nsfwWarning =
+    document.getElementById("nsfw-warning");
+
+  const nsfwDomain =
+    document.getElementById("nsfw-domain");
+
+  const nsfwAgeConfirm =
+    document.getElementById("nsfw-age-confirm");
+
+  const nsfwContinue =
+    document.getElementById("nsfw-continue");
+
+  const nsfwBack =
+    document.getElementById("nsfw-back");
+
+
+  function setStatus(
+    newTitle,
+    newMessage
+  ) {
+
+    title.textContent =
+      newTitle;
+
+    message.textContent =
+      newMessage || "";
+
+  }
+
+
+  function hideStatus() {
+
+    status.classList.add(
+      "hidden"
+    );
+
+  }
+
+
+  function showStatus() {
+
+    status.classList.remove(
+      "hidden"
+    );
+
+  }
+
+
+  function fail(error) {
+
+    console.error(
+      "[Entry]",
+      error
+    );
+
+    loader.style.display =
+      "none";
+
+    title.textContent =
+      "Entry couldn't start";
+
+    message.textContent =
+      "The Entry browser engine encountered an error.";
+
+    errorBox.style.display =
+      "block";
+
+    errorBox.textContent =
+      error?.stack ||
+      error?.message ||
+      String(error);
+
+  }
+
+
+  function withTimeout(
+    promise,
+    milliseconds,
+    description
+  ) {
+
+    return Promise.race([
+
+      Promise.resolve(
+        promise
+      ),
+
+      new Promise(
+        (_, reject) => {
+
+          setTimeout(
+            () => {
+
+              reject(
+                new Error(
+                  description +
+                  " timed out after " +
+                  milliseconds +
+                  "ms."
+                )
+              );
+
+            },
+            milliseconds
+          );
+
+        }
+      )
+
+    ]);
+
+  }
+
+
+  function getTarget() {
+
+    const params =
+      new URLSearchParams(
+        window.location.search
+      );
+
+    let target =
+      params.get("url");
+
+    if (!target) {
+
+      throw new Error(
+        "No destination URL was supplied."
+      );
+
+    }
+
+    target =
+      target.trim();
+
+    if (
+      !/^https?:\/\//i.test(
+        target
+      )
+    ) {
+
+      target =
+        "https://" +
+        target;
+
+    }
+
+    let parsed;
+
+    try {
+
+      parsed =
+        new URL(target);
+
+    }
+
+    catch {
+
+      throw new Error(
+        "Invalid destination URL."
+      );
+
+    }
+
+    if (
+      parsed.protocol !== "http:" &&
+      parsed.protocol !== "https:"
+    ) {
+
+      throw new Error(
+        "Only HTTP and HTTPS destinations are supported."
+      );
+
+    }
+
+    return parsed.href;
+
+  }
+
+
+  function normalizeHostname(
+    hostname
+  ) {
+
+    return hostname
+      .toLowerCase()
+      .replace(
+        /^www\./,
+        ""
+      );
+
+  }
+
+
+  function hostnameMatches(
+    hostname,
+    domain
+  ) {
+
+    hostname =
+      normalizeHostname(
+        hostname
+      );
+
+    domain =
+      normalizeHostname(
+        domain
+      );
+
+    return (
+      hostname === domain ||
+      hostname.endsWith(
+        "." + domain
+      )
+    );
+
+  }
+
+
+  function isNSFW(
+    target
+  ) {
+
+    let parsed;
+
+    try {
+
+      parsed =
+        new URL(target);
+
+    }
+
+    catch {
+
+      return false;
+
+    }
+
+    return NSFW_DOMAINS.some(
+      domain =>
+        hostnameMatches(
+          parsed.hostname,
+          domain
+        )
+    );
+
+  }
+
+
+  function nsfwEnabledForSession() {
+
+    return (
+      sessionStorage.getItem(
+        "entry-nsfw-enabled"
+      ) === "true"
+    );
+
+  }
+
+
+  function enableNSFWForSession() {
+
+    sessionStorage.setItem(
+      "entry-nsfw-enabled",
+      "true"
+    );
+
+  }
+
+
+  function requestNSFWPermission(
+    target
+  ) {
+
+    return new Promise(
+      resolve => {
+
+        const parsed =
+          new URL(target);
+
+        nsfwDomain.textContent =
+          parsed.hostname;
+
+        nsfwAgeConfirm.checked =
+          false;
+
+        nsfwContinue.disabled =
+          true;
+
+        nsfwWarning.classList.add(
+          "visible"
+        );
+
+        nsfwAgeConfirm.onchange =
+          () => {
+
+            nsfwContinue.disabled =
+              !nsfwAgeConfirm.checked;
+
+          };
+
+        nsfwContinue.onclick =
+          () => {
+
+            if (
+              !nsfwAgeConfirm.checked
+            ) {
+              return;
+            }
+
+            enableNSFWForSession();
+
+            nsfwWarning.classList.remove(
+              "visible"
+            );
+
+            resolve(true);
+
+          };
+
+        nsfwBack.onclick =
+          () => {
+
+            nsfwWarning.classList.remove(
+              "visible"
+            );
+
+            resolve(false);
+
+          };
+
+      }
+    );
+
+  }
+
+
+  async function checkNSFWGate(
+    target
+  ) {
+
+    if (
+      !isNSFW(target)
+    ) {
+
+      return true;
+
+    }
+
+    if (
+      nsfwEnabledForSession()
+    ) {
+
+      return true;
+
+    }
+
+    hideStatus();
+
+    const allowed =
+      await requestNSFWPermission(
+        target
+      );
+
+    if (allowed) {
+
+      showStatus();
+
+      setStatus(
+        "Starting Entry",
+        "Preparing destination…"
+      );
+
+    }
+
+    return allowed;
+
+  }
+
+
+  function checkEngine() {
+
+    setStatus(
+      "Checking engine",
+      "Loading Entry browser components…"
+    );
+
+    if (
+      !window.EpoxyTransport
+    ) {
+
+      throw new Error(
+        "EpoxyTransport was not loaded."
+      );
+
+    }
+
+    if (
+      typeof window
+        .EpoxyTransport
+        .default !== "function"
+    ) {
+
+      throw new Error(
+        "Epoxy transport constructor is unavailable. Exports: " +
+        Object.keys(
+          window.EpoxyTransport
+        ).join(", ")
+      );
+
+    }
+
+    if (
+      !window.$corridor
+    ) {
+
+      throw new Error(
+        "Corridor was not loaded."
+      );
+
+    }
+
+    if (
+      !window.$corridorController
+    ) {
+
+      throw new Error(
+        "Entry controller API was not loaded."
+      );
+
+    }
+
+    if (
+      typeof window
+        .$corridorController
+        .Controller !== "function"
+    ) {
+
+      throw new Error(
+        "Entry controller constructor is unavailable."
+      );
+
+    }
+
+  }
+
+
+  async function registerServiceWorker() {
+
+    setStatus(
+      "Starting Entry",
+      "Starting browser controller…"
+    );
+
+    if (
+      !("serviceWorker" in navigator)
+    ) {
+
+      throw new Error(
+        "This browser does not support service workers."
+      );
+
+    }
+
+    const registration =
+      await withTimeout(
+
+        navigator
+          .serviceWorker
+          .register(
+            CONFIG.SERVICE_WORKER,
+            {
+              scope:
+                CONFIG.SERVICE_WORKER_SCOPE,
+
+              updateViaCache:
+                "none"
+            }
+          ),
+
+        15000,
+
+        "Entry controller registration"
+
+      );
+
+    try {
+
+      await registration.update();
+
+    }
+
+    catch (error) {
+
+      console.warn(
+        "[Entry] Controller update:",
+        error
+      );
+
+    }
+
+    await withTimeout(
+
+      navigator.serviceWorker.ready,
+
+      15000,
+
+      "Entry controller activation"
+
+    );
+
+    if (
+      !navigator
+        .serviceWorker
+        .controller
+    ) {
+
+      const reloaded =
+        sessionStorage.getItem(
+          "entry-controller-reload"
+        );
+
+      if (!reloaded) {
+
+        sessionStorage.setItem(
+          "entry-controller-reload",
+          "1"
+        );
+
+        location.reload();
+
+        await new Promise(
+          () => {}
+        );
+
+      }
+
+      throw new Error(
+        "Entry controller installed but has not taken control."
+      );
+
+    }
+
+    sessionStorage.removeItem(
+      "entry-controller-reload"
+    );
+
+    return {
+      registration,
+      worker:
+        navigator
+          .serviceWorker
+          .controller
+    };
+
+  }
+
+
+  async function createTransport() {
+
+    setStatus(
+      "Connecting securely",
+      "Connecting Entry to its network transport…"
+    );
+
+    const EpoxyTransport =
+      window
+        .EpoxyTransport
+        .default;
+
+    const transport =
+      new EpoxyTransport({
+        wisp:
+          CONFIG.WISP
+      });
+
+    if (
+      typeof transport.init ===
+      "function"
+    ) {
+
+      await withTimeout(
+
+        transport.init(),
+
+        20000,
+
+        "Entry network transport"
+
+      );
+
+    }
+
+    return transport;
+
+  }
+
+
+  async function createController(
+    worker,
+    transport
+  ) {
+
+    setStatus(
+      "Starting browser",
+      "Preparing your Entry session…"
+    );
+
+    const Controller =
+      window
+        .$corridorController
+        .Controller;
+
+    const controller =
+      new Controller({
+
+        serviceworker:
+          worker,
+
+        transport:
+          transport
+
+      });
+
+    if (
+      typeof controller.wait ===
+      "function"
+    ) {
+
+      await withTimeout(
+
+        controller.wait(),
+
+        20000,
+
+        "Entry browser controller"
+
+      );
+
+    }
+
+    return controller;
+
+  }
+
+
+  function createBrowserFrame(
+    controller
+  ) {
+
+    if (
+      typeof controller.createFrame !==
+      "function"
+    ) {
+
+      throw new Error(
+        "Entry controller does not provide createFrame()."
+      );
+
+    }
+
+    const frame =
+      controller.createFrame(
+        iframe
+      );
+
+    if (!frame) {
+
+      throw new Error(
+        "Entry couldn't create the browser frame."
+      );
+
+    }
+
+    if (
+      typeof frame.go !==
+      "function"
+    ) {
+
+      throw new Error(
+        "Entry browser frame does not provide go()."
+      );
+
+    }
+
+    return frame;
+
+  }
+
+
+  async function openDestination(
+    controller,
+    target
+  ) {
+
+    setStatus(
+      "Opening website",
+      new URL(target).hostname
+    );
+
+    const frame =
+      createBrowserFrame(
+        controller
+      );
+
+    let finished =
+      false;
+
+    function finish() {
+
+      if (finished) {
+        return;
+      }
+
+      finished =
+        true;
+
+      hideStatus();
+
+    }
+
+    iframe.addEventListener(
+      "load",
+      finish,
+      {
+        once: true
+      }
+    );
+
+    const result =
+      frame.go(
+        target
+      );
+
+    if (
+      result &&
+      typeof result.then ===
+        "function"
+    ) {
+
+      await withTimeout(
+
+        result,
+
+        20000,
+
+        "Entry navigation"
+
+      );
+
+    }
+
+    setTimeout(
+      finish,
+      10000
+    );
+
+  }
+
+
+  function navigationCancelled() {
+
+    document.body.innerHTML =
+      `
+      <div
+        style="
+          min-height:100vh;
+          display:grid;
+          place-items:center;
+          background:#000;
+          color:#e6fbf7;
+          font-family:Inter,system-ui,sans-serif;
+          text-align:center;
+          padding:30px;
+        "
+      >
+        <div>
+          <div
+            style="
+              font-family:'Mrs Saint Delafield',cursive;
+              font-size:82px;
+              line-height:1;
+              color:#fff;
+              text-shadow:
+                0 0 22px rgba(47,245,200,.75),
+                0 0 50px rgba(23,201,255,.4);
+            "
+          >
+            entry
+          </div>
+
+          <h2>
+            Navigation cancelled
+          </h2>
+
+          <p
+            style="
+              color:#7fa39d;
+              font-size:13px;
+            "
+          >
+            The adult destination was not opened.
+          </p>
+        </div>
+      </div>
+      `;
+
+  }
+
+
+  async function start() {
+
+    try {
+
+      setStatus(
+        "Starting Entry",
+        "Reading destination…"
+      );
+
+      const target =
+        getTarget();
+
+      const allowed =
+        await checkNSFWGate(
+          target
+        );
+
+      if (!allowed) {
+
+        navigationCancelled();
+
+        return;
+
+      }
+
+      checkEngine();
+
+      const {
+        worker
+      } =
+        await registerServiceWorker();
+
+      const transport =
+        await createTransport();
+
+      const controller =
+        await createController(
+          worker,
+          transport
+        );
+
+      await openDestination(
+        controller,
+        target
+      );
+
+    }
+
+    catch (error) {
+
+      fail(error);
+
+    }
+
+  }
+
+
+  window.addEventListener(
+    "error",
+    event => {
+
+      console.error(
+        "[Entry error]",
+        event.error ||
+        event.message
+      );
+
+    }
+  );
+
+
+  window.addEventListener(
+    "unhandledrejection",
+    event => {
+
+      console.error(
+        "[Entry rejection]",
+        event.reason
+      );
+
+    }
+  );
+
+
+  start();
+
+})();
+</script>
+
+</body>
+</html>
