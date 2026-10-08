@@ -1,7 +1,8 @@
+
 {
-  "name": "entry-engine",
+  "name": "achroma-sub-engine-1",
   "version": "1.0.0",
-  "description": "Entry privacy browser engine",
+  "description": "Achroma Sub Engine 1 — monochrome browser engine",
   "private": true,
   "main": "server.js",
   "scripts": {
