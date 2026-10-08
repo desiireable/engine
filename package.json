@@ -1,0 +1,16 @@
+{
+  "name": "entry-engine",
+  "version": "1.0.0",
+  "description": "Entry privacy browser engine",
+  "private": true,
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "engines": {
+    "node": ">=20"
+  },
+  "dependencies": {
+    "express": "^5.1.0"
+  }
+}
